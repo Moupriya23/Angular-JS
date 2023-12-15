@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html ng-app="angularState">
+<head>
+<title>State</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.2/angular.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.1.0/angular-ui-router.min.js"></script>
+</head>
+<body>
+<h1>State in AngularJS</h1>
+<ul class="nav">
+    <li class="active"><a ui-sref="menu">Menu</a></li>
+    <li><a ui-sref="main" ui-sref-active="active">Main</a></li>
+    <li><a ui-sref="info" ui-sref-active="active">Info</a></li>
+</ul>
+    <li><a ui-sref="params({id: 0})" ui-sref-active="active">Params</a></li>
+
+<ui-view></ui-view>
+
+<script>
+
+var app = angular.module('angularState', ['ui.router']);
+
+app.config(function($stateProvider, $urlRouterProvider){
+
+    var states = [
+    {
+    name: 'main',
+    url: '/',
+    template: '<h1>This is Main</h1>'
+    },
+    {
+    name: 'info',
+    url: '/info',
+    template: '<h1>This is Info</h1>'
+    },
+    {
+        name: 'params',
+        url: '/params/{id}',
+        template: '<h1>Param value: {{ paramId }}</h1>',
+        controller: function($scope, $stateParams) {
+        $scope.paramId = $stateParams.id;
+        }
+    }
+    ];
+    states.forEach((state) => $stateProvider.state(state));
+    $urlRouterProvider.otherwise('/');
+    });
+</script>
+</body>
+</html> 
